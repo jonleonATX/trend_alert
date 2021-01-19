@@ -20,6 +20,8 @@ class breakout_screen():
         self.atr_multiple_high = None
         self.atr_multiple_low = None
         self.atr = None
+        self.atrmh = None
+        self.atrml = None
 
     def roundto(self, number, base, places):
         """rounding numbers based on tick characteristics"""
@@ -54,9 +56,11 @@ class breakout_screen():
         self.atr_multiple_high = self.roundto(self.delta_from_high / self.last_atr, 0.00001, 5)
         self.atr_multiple_low = self.roundto(self.delta_from_low / self.last_atr, 0.00001, 5)
         atr_test_delta = atrmultiple_test * self.last_atr
+        self.atrmh = self.last_don_hband - atr_test_delta
+        self.atrml = self.last_don_lband + atr_test_delta
 
         if create_chart:
-            chart = self.get_plot(df, symbol, self.don_hband, self.don_lband, self.last_don_hband - atr_test_delta, self.last_don_lband + atr_test_delta)
+            chart = self.get_plot(df, symbol, self.don_hband, self.don_lband, self.atrmh, self.atrml)
         else:
             chart = None
 
